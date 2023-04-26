@@ -69,6 +69,7 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
+import { mapActions } from 'vuex' // 引入vuex的辅助函数
 
 export default {
   name: 'Login',
@@ -121,6 +122,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['user/login']),
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -150,6 +152,25 @@ export default {
         }
       })
     }
+  },
+  // 登录
+  handleLogin() {
+    this.$refs.loginForm.validate(async isOK => {
+      if (isOK) {
+        // 表示校验通过
+        this.loading = true
+        try {
+          await this['user/login'](this.loginForm)
+          // 只要进行到这个位置 说明登录成功了 跳到主页
+          this.$router.push('/')
+        } catch (error) {
+          //
+        } finally {
+          // finally是和trycatch配套的 不论你执行不执行catch都会执行finally
+          this.loading = false
+        }
+      }
+    })
   }
 }
 </script>

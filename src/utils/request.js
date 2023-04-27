@@ -1,6 +1,8 @@
 // 导出一个axios的实例  而且这个实例要有请求拦截器 响应拦截器
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
+// import { getTimeStamp } from '@/utils/auth'
 // 创建一个axios的实例
 const service = axios.create({
   // 如果执行 npm run dev  值为 /api 正确  /api 这个代理只是给开发环境配置的代理

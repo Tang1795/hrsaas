@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, createNamespacedHelpers } from 'vuex'
 import Hamburger from '@/components/Hamburger'
-// vue中 不能直接给相对地址 因为此时并不确定图片的最终位置
+const { mapActions } = createNamespacedHelpers('user') // 这里的mapAction直接对应模块下的action辅助函数
 export default {
   components: {
     Hamburger
@@ -51,10 +51,10 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
+    ...mapActions(['lgout']),
     async logout() {
-      await this.$store.dispatch('user/lgout') // 调用登出的action
-      // 必须等到删除完token之后 才去跳转到登录页面
-      this.$router.push('/login')
+      await this.$store.dispatch('user/lgout') // 这里不论写不写 await 登出方法都是同步的
+      this.$router.push('/login') // 跳到登录页
       //
     }
   }

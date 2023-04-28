@@ -1,4 +1,4 @@
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken, setTimeStamp } from '@/utils/auth'
 import { login, getUserInfo, getUserDetailById } from '@/api/user'
 // 状态
 // 初始化的时候从缓存中读取状态 并赋值到初始化的状态上
@@ -40,6 +40,8 @@ const actions = {
     // 现在有用户token
     // actions 修改state 必须通过mutations
     context.commit('setToken', result)
+    // 写入时间戳
+    setTimeStamp() // 将当前最新时间写入缓存
   },
   // 获取用户资料action
   async getUserInfo(context) {
@@ -49,6 +51,13 @@ const actions = {
     // 此时已经获取到了用户的基本资料 迫不得已 为了头像再次调用一个接口
     context.commit('setUserInfo', baseResult) // 将整个的个人信息设置到用户的vuex数据中
     return baseResult // 这里为什么要返回 为后面埋下伏笔
+  },
+  // 登出的action
+  logout(context) {
+    // 删除token
+    context.commit('removeToken') // 不仅仅删除了vuex中的，还删除了缓存中的
+    // 删除用户资料
+    context.commit('removeUserInfo') // 删除用户信息
   }
 }
 export default {

@@ -19,6 +19,7 @@ import '@/permission' // permission control
 // 注册自定义指令
 // 遍历所有的导出的指令对象 完成自定义全局注册
 Object.keys(directives).forEach(key => {
+  // 注册自定义指令
   Vue.directive(key.directives[key])
 })
 

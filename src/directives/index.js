@@ -1,5 +1,5 @@
-export const imagerror = {
-  // 指令对象会在当前的dom元素插入到结点之后执行
+export const imageerror = {
+  // 指令对象 会在当前的dom元素插入到节点之后执行
   inserted(dom, options) {
     // options是 指令中的变量的解释  其中有一个属性叫做 value
     // dom 表示当前指令作用的dom对象

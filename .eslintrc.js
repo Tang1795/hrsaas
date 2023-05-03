@@ -231,6 +231,7 @@ module.exports = {
     ],
     'space-before-blocks': [2, 'always'],
     'space-before-function-paren': [0],
+    'vue/html-self-closing': 0,
     'space-in-parens': [2, 'never'],
     'space-infix-ops': 2,
     'space-unary-ops': [

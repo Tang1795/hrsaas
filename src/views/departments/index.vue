@@ -1,7 +1,10 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
+      <!-- 放置组织架构内容 -->
       <el-card class="tree-card">
+        <!--放置一个属性   这里的props和我们之前学习的父传子 的props没关系-->
+        <el-tree :data="departs" :props="defaultProps" />
         <!-- 用了一个行列布局 -->
         <el-row type="flex" justify="space-between" align="middle" style="height: 40px">
           <el-col>
@@ -30,7 +33,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      defaultProps: {
+        label: 'name'
+      },
+      departs: [{ name: '总裁办', children: [{ name: '董事会' }] }, { name: '行政部' }, { name: '人事部' }]
+    }
+  }
+}
 </script>
 
 <style scoped>

@@ -15,14 +15,18 @@
         </h3>
       </div>
 
-      <el-form-item prop="username">
+      <div class="title-container">
+        <h3 class="title">Login Form</h3>
+      </div>
+
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
+          ref="mobile"
+          v-model="loginForm.mobile"
+          placeholder="请输入手机号"
           name="username"
           type="text"
           tabindex="1"
@@ -69,8 +73,8 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
-import { mapActions } from 'vuex' // 引入vuex的辅助函数
-
+import path from 'path'
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data() {
@@ -85,6 +89,7 @@ export default {
       // }
       validMobile(value) ? callback() : callback(new Error('手机号格式不正确'))
     }
+
     return {
       loginForm: {
         mobile: '13800000002',
@@ -133,44 +138,25 @@ export default {
         this.$refs.password.focus()
       })
     },
+    // 登录
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
+      this.$refs.loginForm.validate(async isOK => {
+        if (isOK) {
+          // 表示校验通过
           this.loading = true
-          this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('error submit!!')
-          return false
+          try {
+            await this['user/login'](this.loginForm)
+            // 只要进行到这个位置 说明登录成功了 跳到主页
+            this.$router.push('/')
+          } catch (error) {
+            //
+          } finally {
+            // finally是和trycatch配套的 不论你执行不执行catch都会执行finally
+            this.loading = false
+          }
         }
       })
     }
-  },
-  // 登录
-  handleLogin() {
-    this.$refs.loginForm.validate(async isOK => {
-      if (isOK) {
-        // 表示校验通过
-        this.loading = true
-        try {
-          await this['user/login'](this.loginForm)
-          // 只要进行到这个位置 说明登录成功了 跳到主页
-          this.$router.push('/')
-        } catch (error) {
-          //
-        } finally {
-          // finally是和trycatch配套的 不论你执行不执行catch都会执行finally
-          this.loading = false
-        }
-      }
-    })
   }
 }
 </script>
@@ -181,6 +167,7 @@ export default {
 
 $bg: #283443;
 $light_gray: #68b0fe; // 将输入框颜色改成蓝色
+
 $cursor: #fff;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
@@ -220,11 +207,9 @@ $cursor: #fff;
     color: #454545;
   }
 }
-// 设置错误信息的颜色
 .el-form-item__error {
   color: #fff;
 }
-// 设置登录按钮的样式
 .loginBtn {
   background: #407ffe;
   height: 64px;

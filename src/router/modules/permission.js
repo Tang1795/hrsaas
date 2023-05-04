@@ -11,7 +11,7 @@ export default {
       name: 'permissions',
       meta: {
         // 路由元信息 里面可以存储一些路由信息
-        title: '权限', // title有用处  表示当前模块的中文名称
+        title: '权限管理', // title有用处  表示当前模块的中文名称
         icon: 'lock'
       }
     }
